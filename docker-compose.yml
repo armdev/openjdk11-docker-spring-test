@@ -1,0 +1,30 @@
+version: '3.2'
+services:   
+      
+  track:
+    image: jdkdemo   
+    build: ./jdkdemo
+    container_name: jdkdemo
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+ 
+    ports:
+      - '9595:9595'
+    volumes:
+      - /opt/supernet/logs/:/opt/supernet/logs
+    networks:
+      - supernet
+
+  
+networks:
+  supernet:
+    driver: bridge
